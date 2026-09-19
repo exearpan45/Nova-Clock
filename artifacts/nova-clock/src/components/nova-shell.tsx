@@ -39,6 +39,15 @@ export function NovaShell({ children }: { children: ReactNode }) {
     setDarkMode(nextDarkMode);
     document.documentElement.classList.toggle('dark', nextDarkMode);
   }, []);
+  useEffect(() => {
+    const openAuth = () => {
+      setAuthMode('welcome');
+      setAuthMessage('');
+      setAuthOpen(true);
+    };
+    window.addEventListener('nova-open-auth', openAuth);
+    return () => window.removeEventListener('nova-open-auth', openAuth);
+  }, []);
   const toggleDarkMode = () => {
     setDarkMode((current) => {
       const next = !current;
