@@ -27,6 +27,9 @@ function authHeaders(token?: string) {
 
 function friendlyAuthError(response: AuthResponse) {
   const raw = response.error_description ?? response.msg ?? response.message ?? '';
+  if (/captcha/i.test(raw)) {
+    return 'Supabase CAPTCHA protection is enabled for this project. Disable it under Authentication → Bot and Abuse Protection, or connect an hCaptcha/Turnstile widget before signing in.';
+  }
   if (/invalid login|invalid credentials/i.test(raw)) return 'That email or password does not match.';
   if (/already registered|already exists/i.test(raw)) return 'An account with that email already exists.';
   if (/password/i.test(raw) && /weak|short|characters/i.test(raw)) return 'Use a stronger password with at least 6 characters.';
