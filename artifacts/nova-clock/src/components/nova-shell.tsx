@@ -3,7 +3,7 @@ import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import {
   AlarmClock, CalendarDays, Clock3, Globe2, Hourglass, LayoutGrid,
-  ListTodo, LoaderCircle, LockKeyhole, Menu, Moon, Settings2, Timer, UserRound, X,
+  ListTodo, LoaderCircle, LockKeyhole, Menu, Moon, Settings2, Sun, Timer, UserRound, X,
 } from 'lucide-react';
 import { signInWithPassword, signUpWithPassword, supabaseConfig } from '@/lib/supabase';
 
@@ -31,9 +31,22 @@ export function NovaShell({ children }: { children: ReactNode }) {
   const [authPassword, setAuthPassword] = useState('');
   const [authBusy, setAuthBusy] = useState(false);
   const [authMessage, setAuthMessage] = useState('');
+  const [darkMode, setDarkMode] = useState(false);
   useEffect(() => {
     setAuthOpen(window.localStorage.getItem('nova-auth-seen') !== 'true');
+    const savedTheme = window.localStorage.getItem('nova-theme');
+    const nextDarkMode = savedTheme === 'dark';
+    setDarkMode(nextDarkMode);
+    document.documentElement.classList.toggle('dark', nextDarkMode);
   }, []);
+  const toggleDarkMode = () => {
+    setDarkMode((current) => {
+      const next = !current;
+      window.localStorage.setItem('nova-theme', next ? 'dark' : 'light');
+      document.documentElement.classList.toggle('dark', next);
+      return next;
+    });
+  };
   const dismissAuth = () => {
     window.localStorage.setItem('nova-auth-seen', 'true');
     setAuthOpen(false);
@@ -86,8 +99,8 @@ export function NovaShell({ children }: { children: ReactNode }) {
         <nav className="space-y-1">{links(navItems)}</nav>
         <div className="mt-auto border-t border-white/10 pt-4">
           <nav className="space-y-1">{links(secondaryItems)}</nav>
-          <button data-testid="button-theme-quick" className="mt-3 flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-[12px] font-semibold text-white/45 hover:bg-white/[.07] hover:text-white/80" onClick={() => document.documentElement.classList.toggle('dark')}>
-            <Moon size={16} /><span>Night palette</span><span className="ml-auto h-2 w-2 rounded-full bg-[#d8ef68]" />
+          <button data-testid="button-theme-quick" className="mt-3 flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-[12px] font-semibold text-white/45 hover:bg-white/[.07] hover:text-white/80" onClick={toggleDarkMode}>
+            {darkMode ? <Sun size={16} /> : <Moon size={16} />}<span>{darkMode ? 'Light palette' : 'Night palette'}</span><span className="ml-auto h-2 w-2 rounded-full bg-[#d8ef68]" />
           </button>
         </div>
       </aside>
@@ -108,7 +121,11 @@ export function NovaShell({ children }: { children: ReactNode }) {
             <button data-testid="button-open-menu" className="rounded-xl p-2 lg:hidden" onClick={() => setMenuOpen(true)}><Menu size={21} /></button>
             <div className="text-sm font-semibold text-[hsl(var(--muted-foreground))]">{current?.label ?? 'Overview'}</div>
           </div>
-          <div className="flex items-center gap-4 text-[11px] font-semibold text-[hsl(var(--muted-foreground))]"><span className="hidden items-center gap-2 sm:flex"><span className="h-1.5 w-1.5 rounded-full bg-[#a9c94d]" />Local cockpit</span><Link href="/profile" data-testid="link-header-profile" className="grid h-9 w-9 place-items-center rounded-full bg-[#dedbd0] text-[#27243a] hover:bg-[#d8ef68]"><UserRound size={16} /></Link></div>
+          <div className="flex items-center gap-2 sm:gap-4 text-[11px] font-semibold text-[hsl(var(--muted-foreground))]">
+            <span className="hidden items-center gap-2 sm:flex"><span className="h-1.5 w-1.5 rounded-full bg-[#a9c94d]" />Local cockpit</span>
+            <button data-testid="button-header-theme" aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'} onClick={toggleDarkMode} className="grid h-9 w-9 place-items-center rounded-full border border-[hsl(var(--border))] bg-[hsl(var(--card))] hover:border-[hsl(var(--accent))]">{darkMode ? <Sun size={16} /> : <Moon size={16} />}</button>
+            <Link href="/profile" data-testid="link-header-profile" className="grid h-9 w-9 place-items-center rounded-full bg-[#dedbd0] text-[#27243a] hover:bg-[#d8ef68]"><UserRound size={16} /></Link>
+          </div>
         </header>
         <motion.main initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .35 }} className="mx-auto max-w-[1400px] px-5 pb-28 pt-7 sm:px-8 lg:px-10 lg:pb-10">{children}</motion.main>
       </div>
@@ -116,6 +133,9 @@ export function NovaShell({ children }: { children: ReactNode }) {
       <nav className="fixed inset-x-3 bottom-3 z-30 flex items-center justify-around rounded-[22px] border border-[hsl(var(--border)/.65)] bg-[hsl(var(--card)/.94)] p-2 shadow-[0_12px_35px_rgba(38,34,64,.13)] backdrop-blur-xl lg:hidden">
         {navItems.slice(0, 5).map(({ href, label, icon: Icon }) => <Link key={href} href={href} data-testid={`mobile-link-${label.toLowerCase().replaceAll(' ', '-')}`} className={`grid h-11 min-w-12 place-items-center rounded-2xl ${location === href ? 'bg-[hsl(var(--accent))] text-[#202033]' : 'text-[hsl(var(--muted-foreground))]'}`}><Icon size={18} /><span className="sr-only">{label}</span></Link>)}
       </nav>
+      <footer className="px-5 pb-24 pt-2 text-center text-[10px] font-semibold tracking-[.08em] text-[hsl(var(--muted-foreground)/.75)] sm:px-8 lg:pb-5 lg:pl-[238px]">
+        © 2026 NOVA CLOCK · Developed by Arpan Goswami
+      </footer>
       {authOpen && (
         <div className="fixed inset-0 z-[60] grid place-items-center bg-[#1c1a2b]/55 p-4 backdrop-blur-md">
           <div className="w-full max-w-[460px] overflow-hidden rounded-[28px] border border-white/15 bg-[#27243b] text-[#f7f2e7] shadow-2xl">

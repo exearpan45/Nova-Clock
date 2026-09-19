@@ -51,36 +51,44 @@ function saveSession(response: AuthResponse) {
 
 export async function signInWithPassword(email: string, password: string) {
   if (!supabaseConfig.configured) {
-    return { ok: false, message: 'Cloud sync is not configured yet. Continue as a guest for now.' };
+    return { ok: false, message: 'Cloud sign-in is not configured in this build yet. Continue as a guest, or add your Supabase URL and public anon key.' };
   }
-  const response = await fetch(`${baseUrl}/auth/v1/token?grant_type=password`, {
-    method: 'POST',
-    headers: authHeaders(),
-    body: JSON.stringify({ email, password }),
-  });
-  const data = (await response.json()) as AuthResponse;
-  if (!response.ok) return { ok: false, message: friendlyAuthError(data) };
-  saveSession(data);
-  return { ok: true, user: data.user };
+  try {
+    const response = await fetch(`${baseUrl}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ email, password }),
+    });
+    const data = (await response.json()) as AuthResponse;
+    if (!response.ok) return { ok: false, message: friendlyAuthError(data) };
+    saveSession(data);
+    return { ok: true, user: data.user };
+  } catch {
+    return { ok: false, message: 'We could not reach the sign-in service. Check your connection, then try again or continue as a guest.' };
+  }
 }
 
 export async function signUpWithPassword(email: string, password: string) {
   if (!supabaseConfig.configured) {
-    return { ok: false, message: 'Cloud sync is not configured yet. Continue as a guest for now.' };
+    return { ok: false, message: 'Cloud sign-up is not configured in this build yet. Continue as a guest, or add your Supabase URL and public anon key.' };
   }
-  const response = await fetch(`${baseUrl}/auth/v1/signup`, {
-    method: 'POST',
-    headers: authHeaders(),
-    body: JSON.stringify({ email, password }),
-  });
-  const data = (await response.json()) as AuthResponse;
-  if (!response.ok) return { ok: false, message: friendlyAuthError(data) };
-  if (data.access_token) saveSession(data);
-  return {
-    ok: true,
-    needsEmailConfirmation: !data.access_token,
-    user: data.user,
-  };
+  try {
+    const response = await fetch(`${baseUrl}/auth/v1/signup`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ email, password }),
+    });
+    const data = (await response.json()) as AuthResponse;
+    if (!response.ok) return { ok: false, message: friendlyAuthError(data) };
+    if (data.access_token) saveSession(data);
+    return {
+      ok: true,
+      needsEmailConfirmation: !data.access_token,
+      user: data.user,
+    };
+  } catch {
+    return { ok: false, message: 'We could not reach the sign-up service. Check your connection, then try again or continue as a guest.' };
+  }
 }
 
 export function signOutLocally() {
