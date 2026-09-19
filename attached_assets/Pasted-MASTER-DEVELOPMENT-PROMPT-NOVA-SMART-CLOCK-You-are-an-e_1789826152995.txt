@@ -1,0 +1,993 @@
+MASTER DEVELOPMENT PROMPT — NOVA SMART CLOCK
+You are an expert full-stack developer, Android/PWA developer, UI/UX designer, Supabase engineer, and security-focused application architect.
+
+Build a complete, production-ready smart clock application called NOVA CLOCK.
+
+The application must feel like a premium modern smartphone OS clock app — fast, elegant, responsive, lightweight, and reliable even on low-end devices.
+
+Creator: Arpan Goswami
+
+Copyright: © 2026 Copyright Arpan Goswami. All rights reserved.
+
+1. CORE REQUIREMENT
+Create a complete smart-clock platform with:
+
+Modern digital clock
+Analog clock
+Multiple clock styles
+Alarm system
+Stopwatch
+Timer
+World clock
+Countdown
+Time-zone converter
+Calendar
+Sleep/wake tools
+Custom themes
+Personalization
+Settings
+User accounts
+Email/password authentication
+Supabase backend
+Cloud synchronization
+Automatic restoration of user settings
+Responsive mobile/desktop UI
+PWA support
+Android-friendly architecture
+The application must NOT feel like a basic HTML clock.
+
+It should feel like a polished commercial clock application.
+
+2. IMPORTANT LOGIN EXPERIENCE
+Use Supabase Authentication.
+
+Users must be able to:
+
+Sign up using email + password
+Log in using email + password
+Log out
+Stay signed in
+Reset forgotten password
+Change password
+View account information
+FIRST VISIT
+When a user opens NOVA CLOCK:
+
+Show a beautiful authentication modal.
+
+Example:
+
+"Welcome to NOVA CLOCK"
+
+"Sign in to sync your clock, alarms, themes and preferences across devices."
+
+Buttons:
+
+Login
+Create Account
+Continue as Guest
+The authentication popup must be elegant and responsive.
+
+Do NOT make the application unusable while authentication is loading.
+
+3. GUEST MODE
+Allow users to continue as a guest.
+
+Guest users can use the core clock features.
+
+However, show a subtle message such as:
+
+"Sign in to securely sync your settings across devices."
+
+Do not repeatedly annoy guest users with login popups.
+
+4. SUPABASE INTEGRATION
+Use Supabase as the backend.
+
+The code must be structured so I can easily insert:
+
+SUPABASE_URL
+
+SUPABASE_ANON_KEY
+
+Create a clean configuration file/environment configuration.
+
+NEVER expose a Supabase service-role key in frontend code.
+
+Use only the public anon key on the client.
+
+5. DATABASE DESIGN
+Create a Supabase database architecture for user synchronization.
+
+Create a user profile/settings system.
+
+Recommended tables:
+
+profiles
+Fields:
+
+id
+email
+display_name
+avatar_url
+created_at
+updated_at
+The id must reference the authenticated Supabase user.
+
+user_settings
+Store:
+
+theme
+accent color
+clock style
+digital/analog preference
+12/24 hour format
+show seconds
+show date
+show weekday
+selected timezone
+language
+sound settings
+vibration settings
+notification settings
+alarm preferences
+timer preferences
+stopwatch preferences
+background settings
+animation settings
+battery-saving preferences
+other personalization settings
+alarms
+Store:
+
+id
+user_id
+title
+time
+enabled
+repeat_days
+ringtone
+vibration
+snooze_duration
+created_at
+updated_at
+world_clocks
+Store:
+
+id
+user_id
+city
+timezone
+display_order
+Use proper foreign keys.
+
+Enable Row Level Security.
+
+Users must only be able to access their own records.
+
+6. AUTOMATIC CLOUD SYNCHRONIZATION
+This is one of the most important requirements.
+
+When a user logs in:
+
+Detect authenticated Supabase user.
+Load their cloud settings.
+Load their alarms.
+Load their world clocks.
+Load personalization settings.
+Restore everything automatically.
+Example:
+
+User previously selected:
+
+Dark theme
+Blue accent
+24-hour clock
+Analog clock
+Seconds enabled
+5 alarms
+3 world clocks
+They log in on another device.
+
+NOVA CLOCK should automatically restore those settings.
+
+The user should NOT need to configure everything again.
+
+7. SYNC CONFLICT HANDLING
+Implement sensible synchronization.
+
+If local settings and cloud settings differ:
+
+Use a clear strategy such as:
+
+authenticated cloud data is the primary source
+unsynced local changes can be merged where possible
+Never silently delete alarms or user data.
+
+If synchronization fails:
+
+Continue working locally and retry synchronization later.
+
+Show a small status indicator:
+
+Synced
+Syncing...
+Offline
+Sync failed
+Do not block the application because of a temporary network problem.
+
+8. REAL-TIME SYNC
+Where practical, use Supabase realtime subscriptions.
+
+If the user changes an alarm on Device A:
+
+Device B should be able to receive the update when the application is active.
+
+Avoid excessive database requests.
+
+Use debouncing/batching for settings changes.
+
+9. SMART CLOCK HOME SCREEN
+Create a beautiful dashboard.
+
+Large live clock.
+
+Example:
+
+10:42:18
+
+Friday, 19 September 2026
+
+Include:
+
+Current time
+Seconds
+Date
+Day
+Month
+Year
+Current timezone
+AM/PM when using 12-hour mode
+Optional greeting
+Weather placeholder architecture if later connected to an API
+Clock must update smoothly without reloading the page.
+
+10. CLOCK STYLES
+Include multiple styles.
+
+Examples:
+
+Minimal Digital
+Classic Digital
+Neon Digital
+Glass Clock
+AMOLED Clock
+Matrix-style
+Modern Gradient
+Minimal White
+Elegant Serif
+Large Display
+Analog Classic
+Analog Modern
+Analog Minimal
+Futuristic
+Users can select their preferred style.
+
+Save their choice to Supabase.
+
+11. ANALOG CLOCK
+Create a high-quality analog clock.
+
+Include:
+
+Hour hand
+Minute hand
+Second hand
+Smooth movement
+Tick marks
+Optional numbers
+Multiple designs
+Optional second-hand animation
+It must remain accurate.
+
+12. ALARM SYSTEM
+Create a complete alarm manager.
+
+Users can:
+
+Create unlimited alarms
+Edit alarms
+Delete alarms
+Enable/disable alarms
+Name alarms
+Select ringtone
+Enable vibration
+Select repeat days
+Set snooze duration
+Create one-time alarms
+Create recurring alarms
+Example:
+
+"Wake Up"
+
+06:00 AM
+
+Monday–Friday
+
+13. ALARM UI
+Create a premium alarm screen.
+
+When an alarm triggers:
+
+Show:
+
+Alarm title
+Large time
+Dismiss
+Snooze
+Vibration if supported
+Sound if permitted
+Handle browser/PWA limitations gracefully.
+
+Do not pretend browser background execution is guaranteed.
+
+Explain permissions where required.
+
+14. STOPWATCH
+Create a professional stopwatch.
+
+Features:
+
+Start
+Pause
+Resume
+Reset
+Lap
+Lap history
+Milliseconds
+Best lap
+Average lap
+Make the animation smooth.
+
+15. TIMER
+Create a powerful timer.
+
+Features:
+
+Hours
+Minutes
+Seconds
+Start
+Pause
+Resume
+Reset
+Presets
+Custom duration
+Sound
+Vibration
+Completion animation
+Presets:
+
+1 minute
+5 minutes
+10 minutes
+15 minutes
+25 minutes
+30 minutes
+45 minutes
+60 minutes
+Allow custom presets.
+
+16. WORLD CLOCK
+Allow users to add multiple cities.
+
+Examples:
+
+Kolkata
+Delhi
+Mumbai
+London
+New York
+Tokyo
+Dubai
+Singapore
+Sydney
+Show:
+
+Current local time
+Date
+Day/night indicator
+UTC offset
+Allow drag/reorder if practical.
+
+Save the selected cities to Supabase.
+
+17. TIMEZONE CONVERTER
+Create a timezone conversion tool.
+
+User selects:
+
+From timezone
+
+To timezone
+
+Date
+
+Time
+
+Then show the converted time.
+
+Make daylight-saving handling reliable by using the browser's timezone APIs or a well-supported timezone library when necessary.
+
+18. COUNTDOWN
+Create a customizable countdown.
+
+Users can create events such as:
+
+Birthday
+Exam
+Project deadline
+Holiday
+Custom event
+Display:
+
+Days
+
+Hours
+
+Minutes
+
+Seconds
+
+Allow multiple countdowns.
+
+19. CALENDAR
+Include a modern calendar.
+
+Features:
+
+Month view
+Today button
+Current date highlight
+Navigation
+Optional event reminders
+Integration-ready architecture
+Keep it lightweight.
+
+20. THEMES
+Include many themes.
+
+Examples:
+
+Midnight
+AMOLED
+Ocean
+Aurora
+Sunset
+Cyber
+Glass
+Minimal
+Forest
+Space
+Neon
+Monochrome
+Users can customize:
+
+Background
+Accent color
+Clock color
+Card appearance
+Blur
+Transparency
+Save all settings.
+
+21. DARK / LIGHT MODE
+Support:
+
+Dark
+Light
+System
+Remember the user's selection.
+
+22. RESPONSIVE DESIGN
+The UI must work beautifully on:
+
+Android phones
+iPhones
+Tablets
+Chromebooks
+Laptops
+Desktop monitors
+Use mobile-first design.
+
+Do not create tiny desktop controls that are difficult to tap on mobile.
+
+23. PWA
+Make NOVA CLOCK installable as a PWA.
+
+Include:
+
+manifest.json
+service worker
+icons
+offline shell
+install prompt
+standalone mode
+Cache only appropriate static assets.
+
+Do not cache sensitive authentication information insecurely.
+
+24. AUTHENTICATION SECURITY
+Use Supabase Auth correctly.
+
+Implement:
+
+Email/password signup
+Login
+Logout
+Password reset
+Session restoration
+Auth state listener
+Protected user data
+Row Level Security
+Never store passwords manually.
+
+Never create your own password hashing system.
+
+Never store Supabase service-role credentials in frontend JavaScript.
+
+25. PROFILE PAGE
+Create a beautiful profile section.
+
+Display:
+
+Name
+Email
+Account creation date
+Profile avatar
+Sync status
+Options:
+
+Edit name
+Change password
+Logout
+Delete account
+Require appropriate confirmation before destructive actions.
+
+26. SETTINGS
+Create a comprehensive settings page.
+
+Sections:
+
+Clock
+Clock style
+12/24 hour
+Show seconds
+Show date
+Show weekday
+Appearance
+Theme
+Accent
+Background
+Animations
+Blur
+Alarm
+Default ringtone
+Default snooze
+Vibration
+Notifications
+Notifications permission
+Alarm notifications
+Timer notifications
+Account
+Profile
+Sync
+Logout
+Delete account
+Privacy
+Explain clearly what data is stored in Supabase.
+
+27. LOGIN UI DESIGN
+The authentication interface should look premium.
+
+Use:
+
+Glassmorphism
+Smooth animation
+Clean typography
+Large input fields
+Password visibility button
+Loading state
+Error state
+Success state
+Validation:
+
+Invalid email
+Empty password
+Weak password
+Existing account
+Incorrect credentials
+Network error
+Show human-friendly messages.
+
+Never expose raw Supabase errors directly to users when unnecessary.
+
+28. STARTUP FLOW
+When the application starts:
+
+Load application shell.
+
+Check Supabase session.
+
+If authenticated:
+
+load profile
+load settings
+load alarms
+load world clocks
+restore UI
+If not authenticated:
+
+show login/signup modal
+allow guest mode
+Start clock engine.
+
+Initialize alarms/timers.
+
+Start synchronization.
+
+Avoid flashing the wrong theme before cloud settings load.
+
+Use a small elegant loading screen.
+
+29. OFFLINE SUPPORT
+NOVA CLOCK must remain usable offline.
+
+Use local storage/IndexedDB for suitable non-sensitive local application state.
+
+If the user loses internet:
+
+Clock continues working
+Existing alarms continue where browser/PWA capabilities allow
+Existing settings remain available
+User can continue using tools
+Changes can be queued for synchronization
+When internet returns:
+
+Synchronize changes safely.
+
+30. PERFORMANCE
+This is extremely important.
+
+The application must be lightweight.
+
+Avoid:
+
+Huge unnecessary libraries
+Heavy animations
+Excessive API calls
+Memory leaks
+Unnecessary re-renders
+Large background videos
+Massive image files
+Optimize for low-end Android devices and older laptops.
+
+The clock must remain smooth even when the device is under moderate load.
+
+31. ACCESSIBILITY
+Support:
+
+Keyboard navigation
+Proper labels
+Good contrast
+Focus states
+Screen-reader-friendly controls
+Reduced-motion preference
+Large touch targets
+32. ERROR HANDLING
+Never let one failed feature crash the entire application.
+
+Handle:
+
+Supabase offline
+Authentication failure
+Database failure
+Notification permission denied
+Audio permission limitations
+Browser limitations
+Invalid data
+Synchronization conflicts
+Display friendly recovery messages.
+
+33. NAVIGATION
+Create a clean application navigation system.
+
+Main sections:
+
+HOME
+
+ALARMS
+
+STOPWATCH
+
+TIMER
+
+WORLD CLOCK
+
+COUNTDOWN
+
+CALENDAR
+
+SETTINGS
+
+PROFILE
+
+On mobile use a bottom navigation or compact navigation system.
+
+On desktop use a sidebar.
+
+34. ABOUT SECTION
+Create an About page.
+
+Include:
+
+NOVA CLOCK
+
+"A modern smart clock designed to bring time, alarms, productivity tools and personalization together in one lightweight experience."
+
+Created by:
+
+Arpan Goswami
+
+Include:
+
+Version
+Developer information
+Copyright
+Privacy information
+Open-source acknowledgements if applicable
+Copyright:
+
+© 2026 Copyright Arpan Goswami. All rights reserved.
+
+35. HELP CENTER
+Create a built-in Help section.
+
+Explain:
+
+How to create an alarm
+How to edit an alarm
+How to use stopwatch
+How to use timer
+How to add world clocks
+How cloud sync works
+How to install the PWA
+How login works
+How password reset works
+Browser notification limitations
+Offline behavior
+Use expandable FAQ cards.
+
+36. UI STYLE
+Design language:
+
+Premium smartphone OS + futuristic productivity app.
+
+Use:
+
+Glassmorphism
+Soft gradients
+Rounded cards
+Smooth micro-interactions
+Elegant shadows
+Modern typography
+Beautiful icons
+Subtle animations
+Responsive layouts
+Do NOT overuse animations.
+
+The interface must remain fast.
+
+37. LOGO
+Create a professional NOVA CLOCK logo.
+
+Concept:
+
+A futuristic clock combined with a subtle "N" symbol.
+
+Use the logo consistently in:
+
+Login
+Splash screen
+Navbar
+PWA icon
+About page
+Loading screen
+38. SPLASH SCREEN
+Create a short premium startup animation.
+
+Sequence:
+
+NOVA logo appears.
+
+Subtle glow.
+
+"NOVA CLOCK"
+
+"Smart time. Simplified."
+
+Then transition into the application.
+
+Keep it short and skippable/efficient.
+
+Do not create a long loading animation.
+
+39. DATABASE SECURITY
+Implement proper Supabase RLS policies.
+
+Users should only be able to:
+
+SELECT their own records.
+
+INSERT their own records.
+
+UPDATE their own records.
+
+DELETE their own records.
+
+Never allow one authenticated user to access another user's alarms/settings.
+
+Do not trust a user_id supplied by the frontend.
+
+Use auth.uid() in RLS policies.
+
+40. SUPABASE SQL
+Provide the complete SQL needed to create:
+
+profiles
+user_settings
+alarms
+world_clocks
+countdowns if required
+Include:
+
+Primary keys
+Foreign keys
+Indexes
+Timestamps
+RLS
+RLS policies
+Appropriate constraints
+The SQL must be ready to paste into Supabase SQL Editor.
+
+41. PROJECT STRUCTURE
+Create a clean maintainable architecture.
+
+Separate:
+
+Authentication
+Supabase client
+Database services
+Clock engine
+Alarm engine
+Timer
+Stopwatch
+UI components
+Settings
+Themes
+Storage
+Sync engine
+Do not put the entire application into one massive JavaScript file if a framework is being used.
+
+42. TECHNOLOGY
+Prefer a modern lightweight stack.
+
+Recommended:
+
+React
+Vite
+JavaScript or TypeScript
+CSS/Tailwind
+Supabase
+PWA
+If using React, keep dependencies reasonable.
+
+Do not introduce unnecessary frameworks.
+
+43. CONFIGURATION
+Make configuration obvious.
+
+Create something similar to:
+
+.env
+
+with:
+
+VITE_SUPABASE_URL=YOUR_SUPABASE_URL
+
+VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+
+Explain exactly where I need to replace these values.
+
+Never ask me to paste a service-role key into frontend code.
+
+44. DEPLOYMENT
+The project must be deployable to services such as:
+
+GitHub Pages where technically compatible
+Vercel
+Netlify
+Cloudflare Pages
+If GitHub Pages has limitations because of SPA routing or environment variables, explain the required configuration rather than pretending everything works automatically.
+
+For Supabase authentication, make sure the production URL and redirect URLs are configured correctly in Supabase.
+
+45. MOBILE / ANDROID PREPARATION
+Build the web application so it can later be packaged into an Android application.
+
+The interface should be touch-friendly.
+
+Do not depend on desktop-only APIs.
+
+If Android packaging is included, prefer a lightweight approach such as a trusted WebView/TWA/PWA-compatible architecture where appropriate.
+
+Do not require unnecessary heavy tools unless absolutely necessary.
+
+46. NO-COST DEVELOPMENT PRIORITY
+Prioritize a development path that can be completed with free/open-source tools and free tiers where available.
+
+Do not add paid APIs unless absolutely necessary.
+
+The core clock, alarms, timer, stopwatch, themes, authentication and synchronization should not require a paid third-party API.
+
+Clearly identify anything that could incur a cost.
+
+47. IMPORTANT AUTHENTICATION BEHAVIOR
+The login system must NOT destroy the user's local settings.
+
+Example:
+
+User opens the app as Guest.
+
+They customize:
+
+Clock style
+Theme
+Alarm
+Time format
+Then they create an account.
+
+Migrate suitable local settings into their new Supabase account.
+
+If an existing account logs in:
+
+Restore the account's cloud settings.
+
+This should feel seamless.
+
+48. ACCOUNT SESSION
+If the user has already logged in previously:
+
+Do NOT show the login popup every time.
+
+Restore the Supabase session automatically.
+
+Only show authentication UI when:
+
+No active session
+User manually logs out
+Session expires and reauthentication is necessary
+49. USER EXPERIENCE
+The application should feel intelligent.
+
+Examples:
+
+If there are no alarms:
+
+"Your mornings are quiet. Add your first alarm."
+
+If synchronization is successful:
+
+"Synced" …
+
+This response is too long to display in full.

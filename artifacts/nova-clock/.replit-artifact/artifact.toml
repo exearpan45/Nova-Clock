@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "NOVA CLOCK"
+description = "A premium responsive smart clock with live time, alarms, stopwatch, timer, world clocks, countdowns, personalization, and guest-friendly cloud sync architecture."
+version = "1.0.0"
+id = "artifacts/nova-clock"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25192
+
+[services.development]
+run = "pnpm --filter @workspace/nova-clock run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nova-clock", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/nova-clock/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25192"
+BASE_PATH = "/"
