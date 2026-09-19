@@ -1,42 +1,35 @@
 import { type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import NotFound from '@/pages/not-found';
+import { NovaShell } from '@/components/nova-shell';
 import {
-  Route,
-  Switch,
-  useLocation,
-  Router as WouterRouter,
-} from 'wouter';
+  AlarmsPage, CalendarPage, CountdownPage, HomePage, ProfilePage,
+  SettingsPage, StopwatchPage, TimerPage, WorldClockPage,
+} from '@/pages/nova-pages';
+import NotFound from '@/pages/not-found';
 
 const queryClient = new QueryClient();
 
-function Home() {
-  return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Replit Agent is building...
-        </h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Your app will appear here once it's ready.
-        </p>
-      </div>
-    </div>
-  );
-}
-
 function Router() {
   return (
-    // Keep a shared shell (sidebar, navbar) outside the boundary so it
-    // survives a page crash.
     <RoutedErrorBoundary>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route component={NotFound} />
-      </Switch>
+      <NovaShell>
+        <Switch>
+          <Route path="/" component={HomePage} />
+          <Route path="/alarms" component={AlarmsPage} />
+          <Route path="/stopwatch" component={StopwatchPage} />
+          <Route path="/timer" component={TimerPage} />
+          <Route path="/world-clock" component={WorldClockPage} />
+          <Route path="/countdown" component={CountdownPage} />
+          <Route path="/calendar" component={CalendarPage} />
+          <Route path="/settings" component={SettingsPage} />
+          <Route path="/profile" component={ProfilePage} />
+          <Route component={NotFound} />
+        </Switch>
+      </NovaShell>
     </RoutedErrorBoundary>
   );
 }

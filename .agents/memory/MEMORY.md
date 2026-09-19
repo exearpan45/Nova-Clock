@@ -1,0 +1,1 @@
+- [Supabase browser seam](supabase-browser-seam.md) — keep cloud auth optional and local-first; browser code uses only public Supabase configuration.

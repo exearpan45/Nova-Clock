@@ -1,0 +1,17 @@
+{
+  "name": "NOVA CLOCK",
+  "short_name": "NOVA",
+  "description": "Smart time, simplified.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f1e6",
+  "theme_color": "#27243b",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
