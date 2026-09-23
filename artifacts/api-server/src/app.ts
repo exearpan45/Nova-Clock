@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", router);
 app.use(express.static(webRoot));
 
-app.get("*splat", (req, res, next) => {
+app.get("/{*splat}", (req, res, next) => {
   if (req.path.startsWith("/api/")) return next();
   res.sendFile(path.join(webRoot, "index.html"), (err) => {
     if (err) next(err);
